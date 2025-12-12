@@ -26,7 +26,7 @@ services:
         sync: false
         
   # Frontend Static Site
-  - type: static
+  - type: web # CORRECTED: type must be 'web', 'env' tells it it's static
     name: formini-frontend
     env: static
     region: frankfurt
@@ -43,4 +43,4 @@ services:
           type: web
           name: formini-backend
           property: url
-          envVarKey: REDIRECT_URL # Tricks render to use the base URL, but we append /api in code
+          envVarKey: REDIRECT_URL
