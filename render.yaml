@@ -41,4 +41,4 @@ services:
         fromService:
           type: web
           name: formini-backend
-          property: url
+          property: host
