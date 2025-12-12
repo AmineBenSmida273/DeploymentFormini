@@ -29,7 +29,6 @@ services:
   - type: web
     name: formini-frontend
     env: static
-    plan: free
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/build
     routes:
