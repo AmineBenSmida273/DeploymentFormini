@@ -1,0 +1,77 @@
+
+// ==================== SETTINGS & REVIEWS ====================
+
+// Changer le mot de passe
+exports.changePassword = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé' });
+    }
+
+    // Vérifier l'ancien mot de passe
+    const isMatch = await bcrypt.compare(oldPassword, user.mdp);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Ancien mot de passe incorrect' });
+    }
+
+    // Hasher le nouveau mot de passe
+    user.mdp = await bcrypt.hash(newPassword, 12);
+    await user.save();
+
+    res.json({ message: 'Mot de passe modifié avec succès' });
+  } catch (error) {
+    console.error('Erreur changePassword:', error);
+    res.status(500).json({ message: 'Erreur lors du changement de mot de passe' });
+  }
+};
+
+// Récupérer les avis de l'utilisateur
+exports.getMyReviews = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const reviews = await Review.find({ student: userId })
+      .populate('course', 'titre image')
+      .sort({ createdAt: -1 });
+
+    res.json(reviews.map(review => ({
+      id: review._id,
+      courseTitle: review.course?.titre || 'Cours inconnu',
+      courseImage: review.course?.image,
+      rating: review.rating,
+      comment: review.commentaire,
+      date: review.createdAt
+    })));
+  } catch (error) {
+    console.error('Erreur getMyReviews:', error);
+    res.status(500).json({ message: 'Erreur lors de la récupération des avis' });
+  }
+};
+
+// Mettre à jour un avis
+exports.updateReview = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { reviewId } = req.params;
+    const { rating, comment } = req.body;
+
+    const review = await Review.findOne({ _id: reviewId, student: userId });
+
+    if (!review) {
+      return res.status(404).json({ message: 'Avis non trouvé ou non autorisé' });
+    }
+
+    if (rating) review.rating = rating;
+    if (comment !== undefined) review.commentaire = comment;
+
+    await review.save();
+
+    res.json({ message: 'Avis mis à jour avec succès', review });
+  } catch (error) {
+    console.error('Erreur updateReview:', error);
+    res.status(500).json({ message: 'Erreur lors de la mise à jour de l\'avis' });
+  }
+};

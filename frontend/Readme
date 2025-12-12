@@ -1,0 +1,20 @@
+frontend-mvc-project/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   ├── app.js
+│   ├── models/
+│   │   ├── UserModel.js
+│   │   └── TodoModel.js
+│   ├── views/
+│   │   ├── UserView.js
+│   │   ├── TodoView.js
+│   │   └── BaseView.js
+│   ├── controllers/
+│   │   ├── UserController.js
+│   │   └── TodoController.js
+│   └── services/
+│       ├── ApiService.js
+│       └── StorageService.js
+└── README.md

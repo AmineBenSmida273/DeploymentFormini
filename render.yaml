@@ -1,0 +1,46 @@
+services:
+  # Backend Service
+  - type: web
+    name: formini-backend
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false # Will prompt user on dashboard
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: EMAIL_USER
+        sync: false # For emailjs/nodemailer if used
+      - key: EMAIL_PASS
+        sync: false
+        
+  # Frontend Static Site
+  - type: static
+    name: formini-frontend
+    env: static
+    region: frankfurt
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: formini-backend
+          property: url
+          envVarKey: REDIRECT_URL # Tricks render to use the base URL, but we append /api in code

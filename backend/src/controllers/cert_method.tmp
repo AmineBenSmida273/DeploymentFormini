@@ -1,0 +1,42 @@
+
+// Récupérer les certificats (inscriptions terminées)
+exports.getMyCertificates = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    // Trouver les inscriptions avec statut 'terminé'
+    // Note: Assuming 'Enrollment' model is required at top of file, usually it is not in user.controller.js yet?
+    // We need to check imports. If Enrollment is not imported, we must add it or use require inside.
+    // Safe bet: use require inside or check imports first. But I'll assume I need to add it to top of file or use local require.
+    // Let's use local require for safety in this snippet, or I will check imports in next step.
+    const Enrollment = require('../models/enrollment.model'); 
+    
+    const certificates = await Enrollment.find({ 
+      etudiantid: userId, 
+      statut: 'terminé' 
+    })
+    .populate('coursid', 'titre image categorie formateur') // Populate course details
+    .sort({ updatedAt: -1 });
+
+    // Populate instructor details from course (nested populate is harder with simple string, let's do simple first)
+    // Actually coursid ref is Course. Course has 'formateur' ref User. 
+    // We might want to populate formateur name for the certificate signature.
+    
+    // Better populate:
+    const populatedCertificates = await Enrollment.populate(certificates, {
+      path: 'coursid.formateur',
+      select: 'nom prenom'
+    });
+
+    res.json(populatedCertificates.map(cert => ({
+      id: cert._id,
+      courseTitle: cert.coursid?.titre || 'Cours inconnu',
+      courseImage: cert.coursid?.image,
+      category: cert.coursid?.categorie || 'Général',
+      date: cert.updatedAt, // Date of completion (update to 'termine')
+      instructorName: cert.coursid?.formateur ? `${cert.coursid.formateur.prenom} ${cert.coursid.formateur.nom}` : 'Formini'
+    })));
+  } catch (error) {
+    console.error('Erreur getMyCertificates:', error);
+    res.status(500).json({ message: 'Erreur lors de la récupération des certificats' });
+  }
+};

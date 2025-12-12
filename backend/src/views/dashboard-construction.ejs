@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - En Construction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .construction-container {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            border: 3px solid #000;
+        }
+
+        .logo {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-image {
+            max-width: 150px;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 15px;
+        }
+
+        .construction-icon {
+            font-size: 5rem;
+            color: #ff6b35;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        h1 {
+            color: #000;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .message {
+            color: #666;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #ff6b35;
+            border-radius: 4px;
+            animation: progress 3s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 60%; }
+            100% { width: 100%; }
+        }
+
+        .status {
+            display: inline-block;
+            background: #000;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .countdown {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff5e6;
+            border-radius: 10px;
+            border: 2px dashed #ff6b35;
+        }
+
+        .countdown-text {
+            color: #000;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: #000;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #ff6b35;
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .logo-fallback {
+            display: none;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+
+        @media (max-width: 768px) {
+            .construction-container {
+                padding: 40px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-text {
+                font-size: 2rem;
+            }
+            
+            .logo-image {
+                max-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="construction-container">
+        <!-- Logo avec fallback -->
+        <div class="logo">
+            <!-- Solution 1: Logo depuis le dossier public du backend -->
+            <img src="/images/logo.png" alt="Formini" class="logo-image" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';" />
+            
+        </div>
+        <!-- Titre -->
+        <h1>Tableau de Bord en Construction</h1>
+
+        <!-- Message -->
+        <div class="message" id="animatedMessage">
+            Nous travaillons dur pour vous offrir une expérience exceptionnelle. 
+            Notre tableau de bord est en cours de développement et sera bientôt disponible.
+        </div>
+
+        <!-- Barre de progression -->
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <!-- Compte à rebours fictif -->
+        <div class="countdown">
+            <div class="countdown-text">⏰ Lancement prévu dans</div>
+            <div style="font-size: 1.5rem; color: #ff6b35; font-weight: bold;">
+                Bientôt...
+            </div>
+        </div>
+
+    <script>
+        // Gestion du logo
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoImage = document.querySelector('.logo-image[src="/images/logo.png"]');
+            const logoBase64 = document.getElementById('logoBase64');
+            const logoFallback = document.getElementById('logoFallback');
+            
+            // Si le logo principal échoue, essayer le logo base64
+            if (logoImage) {
+                logoImage.onerror = function() {
+                    this.style.display = 'none';
+                    logoBase64.style.display = 'block';
+                };
+            }
+            
+            // Si le logo base64 échoue aussi, utiliser le fallback textuel
+            logoBase64.onerror = function() {
+                this.style.display = 'none';
+                logoFallback.style.display = 'block';
+            };
+        });
+
+        // Animation des messages
+        const messages = [
+            "Préparation des fonctionnalités...",
+            "Optimisation des performances...",
+            "Tests de sécurité...",
+            "Finalisation de l'interface...",
+            "Nous travaillons dur pour vous offrir une expérience exceptionnelle."
+        ];
+
+        let currentMessage = 0;
+        const messageElement = document.getElementById('animatedMessage');
+
+        function animateMessage() {
+            currentMessage = (currentMessage + 1) % messages.length;
+            messageElement.style.opacity = '0';
+            
+            setTimeout(() => {
+                messageElement.textContent = messages[currentMessage];
+                messageElement.style.opacity = '1';
+            }, 500);
+        }
+
+        // Démarrer l'animation des messages
+        setInterval(animateMessage, 3000);
+    </script>
+</body>
+</html>

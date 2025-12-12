@@ -1,0 +1,18 @@
+// INSTRUCTIONS POUR SUPPRIMER LA VALIDATION MONGODB
+// Exécutez ces commandes dans MongoDB Compass ou mongo shell
+
+// 1. Connectez-vous à votre base de données formini
+use formini
+
+// 2. Supprimez la validation stricte
+db.runCommand({
+  collMod: "courses",
+  validator: {},
+  validationLevel: "off",
+  validationAction: "warn"
+})
+
+// 3. Vérifiez que la validation a été supprimée
+db.getCollectionInfos({name: "courses"})
+
+// Vous devriez voir validationLevel: "off"
