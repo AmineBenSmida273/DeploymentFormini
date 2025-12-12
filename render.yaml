@@ -26,10 +26,9 @@ services:
         sync: false
         
   # Frontend Static Site
-  - type: web # CORRECTED: type must be 'web', 'env' tells it it's static
+  - type: web
     name: formini-frontend
     env: static
-    region: frankfurt
     plan: free
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/build
@@ -43,4 +42,3 @@ services:
           type: web
           name: formini-backend
           property: url
-          envVarKey: REDIRECT_URL
