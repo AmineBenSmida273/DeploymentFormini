@@ -146,24 +146,6 @@ export default function SignIn() {
             </button>
           </form>
 
-          {/* SOCIAL LOGIN */}
-          <div style={styles.socialSection}>
-            <div style={styles.divider}>
-              <span style={styles.dividerText}>Or continue with</span>
-            </div>
-
-            <div style={styles.socialButtons}>
-              <button
-                style={styles.socialButton}
-                onClick={() => {
-                  window.location.href = "http://localhost:5000/api/auth/google";
-                }}
-              >
-                <span style={styles.socialIcon}>🔴</span>
-                Se connecter avec Google
-              </button>
-            </div>
-          </div>
 
           <p style={styles.footer}>
             Don't have an account ?{" "}
@@ -303,50 +285,6 @@ const getStyles = (theme) => ({
     cursor: "not-allowed",
   },
 
-  socialSection: {
-    marginTop: "30px",
-  },
-
-  divider: {
-    position: "relative",
-    textAlign: "center",
-    margin: "20px 0",
-  },
-
-  dividerText: {
-    background: theme.paper,
-    padding: "0 15px",
-    color: theme.textSecondary,
-    fontSize: "14px",
-  },
-
-  socialButtons: {
-    display: "flex",
-    gap: "15px",
-    justifyContent: "center",
-  },
-
-  socialButton: {
-    flex: 1,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "8px",
-    padding: "14px",
-    border: `1.5px solid ${theme.border}`,
-    borderRadius: "12px",
-    background: theme.background,
-    cursor: "pointer",
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    fontSize: "14px",
-    fontWeight: "500",
-    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
-    color: theme.text,
-  },
-
-  socialIcon: {
-    fontSize: "16px",
-  },
 
   link: {
     color: "#f97316",
@@ -393,12 +331,6 @@ styleElement.textContent = `
     box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25);
   }
 
-  .social-button:hover {
-    border-color: #f97316;
-    background: #fef3f2;
-    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.15);
-    transform: translateY(-1px);
-  }
 
   a:hover {
     text-decoration: underline;
