@@ -37,7 +37,4 @@ services:
         destination: /index.html
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: formini-backend
-          property: host
+        sync: false # User will set this to the backend URL manually
